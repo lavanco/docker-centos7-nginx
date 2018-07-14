@@ -1,12 +1,6 @@
+FROM centos:7
 
-ENV OS="centos"
-ENV OS_RELEASE="7"
-
-FROM centos:$OS$OS_RELEASE
-
-#ADD ./nginx.repo /etc/yum.repos.d/nginx.repo
-
-RUN echo -e '[nginx]\nname=nginx repo\nbaseurl=http://nginx.org/packages/$OS/$OS_RELEASE/$basearch/\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/nginx.repo
+RUN echo -e '[nginx]\nname=nginx repo\nbaseurl=http://nginx.org/packages/centos/7/$basearch/\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/nginx.repo
 
 RUN yum -y --enablerepo=extras --setopt=tsflags=nodocs --nogpgcheck install epel-release
 RUN yum -y --setopt=tsflags=nodocs --nogpgcheck update
@@ -18,29 +12,7 @@ tar \
 wget
 RUN yum clean all
 
-#Install nginx repo
-#RUN rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
-
-# Install latest version of nginx
-#RUN yum install -y nginx --nogpgcheck
-
-#RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
-#Install required php 5.6 packages
-#RUN yum install -y php php-fpm --nogpgcheck
-
-#Update PHP configs
-#ADD ./php.ini /etc/php.ini
-#ADD ./www.conf /etc/php-fpm.d/www.conf
-
-#Update nginx config
-#ADD ./default.conf /etc/nginx/conf.d/default.conf
-
-#ADD ./index.php /usr/share/nginx/html/index.php
-
-# Install supervisor to run jobs
-#RUN yum install -y epel-release --nogpgcheck
-#RUN yum install -y supervisor --nogpgcheck
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 ADD ./supervisord.conf /etc/supervisord.conf
 
