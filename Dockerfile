@@ -1,6 +1,12 @@
-FROM centos:centos7
 
-ADD ./nginx.repo /etc/yum.repos.d/nginx.repo
+ENV OS="centos"
+ENV OS_RELEASE="7"
+
+FROM centos:$OS$OS_RELEASE
+
+#ADD ./nginx.repo /etc/yum.repos.d/nginx.repo
+
+RUN echo -e '[nginx]\nname=nginx repo\nbaseurl=http://nginx.org/packages/$OS/$OS_RELEASE/$basearch/\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/nginx.repo
 
 RUN yum -y --enablerepo=extras --setopt=tsflags=nodocs --nogpgcheck install epel-release
 RUN yum -y --setopt=tsflags=nodocs --nogpgcheck update
@@ -38,8 +44,7 @@ RUN yum clean all
 
 ADD ./supervisord.conf /etc/supervisord.conf
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
 
 #Run nginx engine
 CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisord.conf"]
