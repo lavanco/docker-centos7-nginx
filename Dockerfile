@@ -9,7 +9,8 @@ RUN yum $yum_options --enablerepo=extras install epel-release && \
   yum makecache fast && \
   yum $yum_options update
 
-RUN yum $yum_options install nginx \
+RUN yum $yum_options install \ 
+  nginx \
   supervisor \
   vim \
   tar
