@@ -17,6 +17,12 @@ RUN yum $yum_options install \
 
 RUN yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/*
 
+WORKDIR /etc/nginx
+
+RUN mkdir /etc/nginx/sites-available && mkdir /etc/nginx/sites-enabled
+
+RUN sed -i.orig "s#include \/etc\/nginx\/conf\.d\/\*.conf;#include \/etc\/nginx\/conf.d\/*.conf;\n    include \/etc\/nginx\/sites-enabled\/*.conf;#g" /etc/nginx/nginx.conf
+
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 ADD etc/supervisord.d/nginx.ini /etc/supervisord.d/nginx.ini
