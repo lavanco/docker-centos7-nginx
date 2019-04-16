@@ -28,7 +28,6 @@ WORKDIR /etc/nginx
 
 EXPOSE 80 443
 
-VOLUME ["/usr/share/nginx/html" "/var/log/nginx/log"]
+VOLUME ["/usr/share/nginx/html", "/var/log/nginx/log"]
 
-#Run nginx engine
 CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisord.conf"]

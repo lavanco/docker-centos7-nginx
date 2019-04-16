@@ -2,7 +2,7 @@ version: "3"
 
 services:
   nginx:
-    image: lavanco/nginx
+    image: lavanco/centos7-nginx
     build:
       context: ./dockerfile_nginx/
     container_name: nginx
