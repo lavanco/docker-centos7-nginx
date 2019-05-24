@@ -1,9 +1,11 @@
-FROM centos:7
+ARG DISTRO=centos
+ARG DISTROVERSION=7
+
+FROM $DISTRO:$DISTROVERSION
 
 RUN echo -e '[nginx]\nname=nginx repo\nbaseurl=http://nginx.org/packages/centos/7/$basearch/\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/nginx.repo
 
-ENV \
-  yumoptions="-y --setopt=tsflags=nodocs --nogpgcheck"
+ARG yumoptions="-y --setopt=tsflags=nodocs --nogpgcheck"
 
 RUN \
   yum $yumoptions --enablerepo=extras install epel-release && \
